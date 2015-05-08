@@ -1,2 +1,0 @@
-# DICE
-Distributed coding extension
