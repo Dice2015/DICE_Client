@@ -9,22 +9,36 @@
             visible="true"
             id="de.uks.se.scoreproject.dice.actionSet">
          <menu
-               label="Sample &amp;Menu"
+               label="Dice &amp;Menu"
                id="sampleMenu">
             <separator
                   name="sampleGroup">
             </separator>
          </menu>
          <action
-               label="&amp;Sample Action"
+               label="dice Settings"
                icon="icons/sample.gif"
                class="de.uks.se.scoreproject.dice.actions.SampleAction"
-               tooltip="Hello, Eclipse world"
+               tooltip="Dice Settings"
                menubarPath="sampleMenu/sampleGroup"
                toolbarPath="sampleGroup"
                id="de.uks.se.scoreproject.dice.actions.SampleAction">
          </action>
       </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="de.uks.se.scoreproject.dice.preferences.SamplePreferencePage"
+            id="de.uks.se.scoreproject.dice.preferences.SamplePreferencePage"
+            name="Sample Preferences">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="de.uks.se.scoreproject.dice.preferences.PreferenceInitializer">
+      </initializer>
    </extension>
 
 </plugin>
