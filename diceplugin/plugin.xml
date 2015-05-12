@@ -31,7 +31,7 @@
       <page
             class="de.uks.se.scoreproject.dice.preferences.SamplePreferencePage"
             id="de.uks.se.scoreproject.dice.preferences.SamplePreferencePage"
-            name="Sample Preferences">
+            name="Dice Preferences">
       </page>
    </extension>
    <extension
@@ -39,6 +39,9 @@
       <initializer
             class="de.uks.se.scoreproject.dice.preferences.PreferenceInitializer">
       </initializer>
+   </extension>
+   <extension point="org.eclipse.ui.startup">
+      <startup class="de.uks.se.scoreproject.dice.startup.StartupInitializer"></startup>
    </extension>
 
 </plugin>

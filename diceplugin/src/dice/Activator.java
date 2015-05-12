@@ -1,8 +1,14 @@
 package dice;
 
+import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.osgi.framework.BundleContext;
+
+import de.uks.se.scoreproject.dice.network.NetworkClient;
+import de.uks.se.scoreproject.dice.preferences.PreferenceConstants;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -14,11 +20,13 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
+	private NetworkClient network ;
 	
 	/**
 	 * The constructor
 	 */
 	public Activator() {
+		
 	}
 
 	/*
@@ -28,6 +36,9 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+	
+//		ss.setValue("SHOW_MEMORY_MONITOR", true);
+		
 	}
 
 	/*

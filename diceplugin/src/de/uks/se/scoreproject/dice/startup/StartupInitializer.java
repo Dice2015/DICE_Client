@@ -1,0 +1,46 @@
+package de.uks.se.scoreproject.dice.startup;
+
+import java.util.prefs.Preferences;
+
+import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.StringFieldEditor;
+import org.eclipse.ui.IStartup;
+
+import de.uks.se.scoreproject.dice.network.NetworkClient;
+import de.uks.se.scoreproject.dice.preferences.PreferenceConstants;
+import dice.Activator;
+
+/**
+ * Class used to initialize default preference values.
+ */
+public class StartupInitializer implements IStartup {
+
+	@Override
+	public void earlyStartup() {
+
+		System.out.println("im run at startup");
+		IEclipsePreferences prefs = new InstanceScope().getNode("de.uks.se.scoreproject.dice");
+		  // you might want to call prefs.sync() if you're worried about others changing your settings
+		 // this.someStr = prefs.get(KEY1);
+		 // this.someBool= prefs.getBoolean(KEY2);
+		System.out.println(prefs.get("addrstringPreference",""));//"pwstringPreference", ""));
+		String ipport = prefs.get("addrstringPreference","");//PreferenceConstants.P_STRING_Address, "");
+		
+		try{
+			String username ="";
+			int port =1;
+			String arr[] = ipport.split(":");
+			username = arr[0];
+			port = Integer.parseInt(arr[1]);
+			new NetworkClient(username, port,prefs.get(PreferenceConstants.P_STRING_username, ""), prefs.get(PreferenceConstants.P_STRING_pw, "")).start();;
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+
+}

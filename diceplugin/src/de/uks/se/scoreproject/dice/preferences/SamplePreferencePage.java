@@ -51,14 +51,18 @@ public class SamplePreferencePage
 //			new String[][] { { "&Choice 1", "choice1" }, {
 //				"C&hoice 2", "choice2" }
 //		}, getFieldEditorParent()));
+	StringFieldEditor sfip = new StringFieldEditor(PreferenceConstants.P_STRING_Address, "Server Adress:Port :", getFieldEditorParent());
 		addField( // A &text preference
-			new StringFieldEditor(PreferenceConstants.P_STRING_Address, "Server Adress:Port :", getFieldEditorParent()));
+			sfip);
+		StringFieldEditor sfu = new StringFieldEditor(PreferenceConstants.P_STRING_username, "Benutzername :", getFieldEditorParent());
 		addField( // A &text preference
-				new StringFieldEditor(PreferenceConstants.P_STRING_username, "Benutzername :", getFieldEditorParent()));
+			sfu	);
 		
 		StringFieldEditor sfe = new StringFieldEditor(PreferenceConstants.P_STRING_pw, "Passwort :", getFieldEditorParent());
 		
-	
+			System.out.println(sfe.getPreferenceName());
+			System.out.println(sfu.getPreferenceName());
+			System.out.println(sfip.getPreferenceName());
 		addField( // A &text preference
 				sfe);
 //		this.getFieldEditorParent().
