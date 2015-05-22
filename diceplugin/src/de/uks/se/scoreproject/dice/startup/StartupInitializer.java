@@ -26,7 +26,9 @@ public class StartupInitializer implements IStartup {
 		  // you might want to call prefs.sync() if you're worried about others changing your settings
 		 // this.someStr = prefs.get(KEY1);
 		 // this.someBool= prefs.getBoolean(KEY2);
-		System.out.println(prefs.get("addrstringPreference",""));//"pwstringPreference", ""));
+		System.out.println("adresse: "+prefs.get(PreferenceConstants.P_STRING_Address,""));
+		System.out.println("username: "+prefs.get(PreferenceConstants.P_STRING_username,""));
+		System.out.println("pw: "+prefs.get(PreferenceConstants.P_STRING_pw,""));//"pwstringPreference", ""));
 		String ipport = prefs.get("addrstringPreference","");//PreferenceConstants.P_STRING_Address, "");
 		
 		try{
