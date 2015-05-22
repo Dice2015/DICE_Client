@@ -11,6 +11,8 @@ import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import de.uks.se.scoreproject.dice.startup.StartupInitializer;
+
 
 public class NetworkClient extends Thread  {
 
@@ -20,12 +22,14 @@ public class NetworkClient extends Thread  {
 	private String pw;
 	private boolean connected = false;
 	private OutputStreamWriter outputStreamWriter;
+	private StartupInitializer gui;
 
 
 
-	public NetworkClient( String ip, int port, String Username, String passwort) {
+	public NetworkClient(StartupInitializer gui, String ip, int port, String Username, String passwort) {
 		this.setName("NetworkReceiverThread");
 		this.ip = ip;
+		this.gui = gui;
 		this.port = port;
 		this.username = Username;
 		try {
@@ -68,6 +72,7 @@ public class NetworkClient extends Thread  {
 		} catch (Exception e) {
 			e.printStackTrace();
 			connected = false;
+			gui.setConnectionError(e.getMessage());
 //			gui.setConnectionError(e.getMessage());
 		}
 		
