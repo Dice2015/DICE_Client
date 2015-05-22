@@ -1,5 +1,6 @@
 package de.uks.se.scoreproject.dice.startup;
 
+<<<<<<< HEAD
 import java.util.prefs.Preferences;
 
 import org.eclipse.core.resources.IProject;
@@ -18,6 +19,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.ISharedImages;
+=======
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
+>>>>>>> 04334824b5387627b759d9771487c42fc34f5a2d
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWindowListener;
@@ -28,7 +33,6 @@ import org.eclipse.ui.PlatformUI;
 
 import de.uks.se.scoreproject.dice.network.NetworkClient;
 import de.uks.se.scoreproject.dice.preferences.PreferenceConstants;
-import dice.Activator;
 
 /**
  * Class used to initialize default preference values.
@@ -61,6 +65,7 @@ public class StartupInitializer implements IStartup {
 			e.printStackTrace();
 		}
 		
+<<<<<<< HEAD
 		
 		
 		
@@ -151,6 +156,16 @@ public class StartupInitializer implements IStartup {
 	public void setConnectionError(String message) {
 		// TODO Auto-generated method stub
 		showMessage(message);
+=======
+		/*
+		 * PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+		 * public void run() { Shell activeShell = PlatformUI.getWorkbench()
+		 * .getActiveWorkbenchWindow().getShell();
+		 * MessageDialog.openInformation(activeShell, "Dice",
+		 * "Hello, Eclipse world"); } });
+		 */
+
+>>>>>>> 04334824b5387627b759d9771487c42fc34f5a2d
 	}
 
 }

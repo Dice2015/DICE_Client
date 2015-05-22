@@ -1,9 +1,21 @@
 package de.uks.se.scoreproject.dice.preferences;
 
+<<<<<<< HEAD
 import org.eclipse.jface.preference.*;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.IWorkbench;
+=======
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.jface.preference.ComboFieldEditor;
+import org.eclipse.jface.preference.FieldEditorPreferencePage;
+import org.eclipse.jface.preference.StringFieldEditor;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.ui.PlatformUI;
+>>>>>>> 04334824b5387627b759d9771487c42fc34f5a2d
 
 import dice.Activator;
 
@@ -18,8 +30,14 @@ import dice.Activator;
  * preferences can be accessed directly via the preference store.
  */
 
+<<<<<<< HEAD
 public class SamplePreferencePage extends FieldEditorPreferencePage implements
 		IWorkbenchPreferencePage {
+=======
+public class SamplePreferencePage extends FieldEditorPreferencePage
+		implements
+			IWorkbenchPreferencePage {
+>>>>>>> 04334824b5387627b759d9771487c42fc34f5a2d
 
 	public SamplePreferencePage() {
 		super(GRID);
@@ -33,6 +51,12 @@ public class SamplePreferencePage extends FieldEditorPreferencePage implements
 	 * editor knows how to save and restore itself.
 	 */
 	public void createFieldEditors() {
+<<<<<<< HEAD
+=======
+		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+				.getShell();
+
+>>>>>>> 04334824b5387627b759d9771487c42fc34f5a2d
 		// addField(new DirectoryFieldEditor(PreferenceConstants.P_PATH,
 		// "&Directory preference:", getFieldEditorParent()));
 		// addField(
@@ -61,6 +85,7 @@ public class SamplePreferencePage extends FieldEditorPreferencePage implements
 
 		StringFieldEditor sfe = new StringFieldEditor(
 				PreferenceConstants.P_STRING_pw, "Passwort :",
+<<<<<<< HEAD
 				getFieldEditorParent()) {
 
 			@Override
@@ -71,6 +96,23 @@ public class SamplePreferencePage extends FieldEditorPreferencePage implements
 			}
 
 		};
+=======
+				getFieldEditorParent());
+
+		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot()
+				.getProjects();
+		String[][] items = new String[projects.length][projects.length];
+		int i = 0;
+		for (IProject p : projects) {
+			items[i][0] = p.getName();
+			items[i][1] = p.getName();
+			i++;
+		}
+		ComboFieldEditor cfe = new ComboFieldEditor(
+				PreferenceConstants.P_STRING_projects, "projects", items,
+				getFieldEditorParent());
+		addField(cfe);
+>>>>>>> 04334824b5387627b759d9771487c42fc34f5a2d
 
 		System.out.println(sfe.getPreferenceName());
 		System.out.println(sfu.getPreferenceName());

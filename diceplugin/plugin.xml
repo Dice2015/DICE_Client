@@ -45,18 +45,22 @@
    </extension>
    <extension
          point="org.eclipse.ui.views">
+<<<<<<< HEAD
       <view
             class="org.eclipse.ui.navigator.CommonNavigator"
             icon="icons/sample.gif"
             id="com.example.test"
             name="My Common Navigator">
       </view>
+=======
+>>>>>>> 04334824b5387627b759d9771487c42fc34f5a2d
       <category
             id="de.uks.se.scoreproject.dice"
             name="Sample Category">
       </category>
       <view
             category="de.uks.se.scoreproject.dice"
+<<<<<<< HEAD
             class="de.uks.se.scoreproject.dice.views.SampleView"
             icon="icons/sample.gif"
             id="de.uks.se.scoreproject.dice.views.SampleView"
@@ -106,6 +110,20 @@
             targetID="org.eclipse.jdt.ui.JavaPerspective">
          <view
                id="de.uks.se.scoreproject.dice.views.SampleView"
+=======
+            class="de.uks.se.scoreproject.dice.views.DiceView"
+            icon="icons/sample.gif"
+            id="de.uks.se.scoreproject.dice.views.DiceView"
+            name="Dice View">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               id="de.uks.se.scoreproject.dice.views.DiceView"
+>>>>>>> 04334824b5387627b759d9771487c42fc34f5a2d
                ratio="0.5"
                relationship="right"
                relative="org.eclipse.ui.views.ProblemView">
