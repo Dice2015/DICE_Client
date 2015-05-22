@@ -17,4 +17,5 @@ public class PreferenceConstants {
 	
 	public static final String P_STRING_pw = "pwstringPreference";
 	
+	public static final String P_STRING_projects = "projectsstringPreference";
 }

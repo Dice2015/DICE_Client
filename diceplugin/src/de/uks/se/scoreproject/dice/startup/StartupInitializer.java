@@ -1,17 +1,11 @@
 package de.uks.se.scoreproject.dice.startup;
 
-import java.util.prefs.Preferences;
-
-import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IStartup;
 
 import de.uks.se.scoreproject.dice.network.NetworkClient;
 import de.uks.se.scoreproject.dice.preferences.PreferenceConstants;
-import dice.Activator;
 
 /**
  * Class used to initialize default preference values.
@@ -43,6 +37,14 @@ public class StartupInitializer implements IStartup {
 			e.printStackTrace();
 		}
 		
+		/*
+		 * PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+		 * public void run() { Shell activeShell = PlatformUI.getWorkbench()
+		 * .getActiveWorkbenchWindow().getShell();
+		 * MessageDialog.openInformation(activeShell, "Dice",
+		 * "Hello, Eclipse world"); } });
+		 */
+
 	}
 
 }
