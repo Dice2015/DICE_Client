@@ -1,14 +1,11 @@
 package de.uks.se.scoreproject.dice.preferences;
 
-import org.eclipse.jface.preference.*;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.eclipse.ui.IWorkbench;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -86,7 +83,7 @@ public class SamplePreferencePage extends FieldEditorPreferencePage implements
 
 		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot()
 				.getProjects();
-		String[][] items = new String[projects.length][projects.length];
+		String[][] items = new String[projects.length][2];
 		int i = 0;
 		for (IProject p : projects) {
 			items[i][0] = p.getName();
