@@ -2,33 +2,25 @@ package de.uks.se.scoreproject.dice.startup;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-<<<<<<< HEAD
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
-=======
->>>>>>> 5ba0e287943c33cf687a84da2cf4dad13c12979a
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.dialogs.MessageDialog;
-<<<<<<< HEAD
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentListener;
-=======
->>>>>>> 5ba0e287943c33cf687a84da2cf4dad13c12979a
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Shell;
-<<<<<<< HEAD
+
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
-=======
->>>>>>> 5ba0e287943c33cf687a84da2cf4dad13c12979a
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.IWindowListener;
@@ -79,7 +71,6 @@ public class StartupInitializer implements IStartup {
 			showMessage("could not connect to server");
 			e.printStackTrace();
 		}
-<<<<<<< HEAD
 		
 		
 		 listener = new IResourceChangeListener() {
@@ -91,9 +82,6 @@ public class StartupInitializer implements IStartup {
 
 	        workspace.addResourceChangeListener(listener);//, lResourceChangeEvent.);
 		
-=======
-
->>>>>>> 5ba0e287943c33cf687a84da2cf4dad13c12979a
 	}
 
 	public static IProject getCurrentSelectedProject() {
@@ -146,7 +134,7 @@ public class StartupInitializer implements IStartup {
 			@Override
 			public void windowActivated(IWorkbenchWindow window) {
 				// TODO Auto-generated method stub
-<<<<<<< HEAD
+
 				IEditorPart editor = window.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();  
 				IEditorInput input = editor.getEditorInput();  
 				//editor.
@@ -170,14 +158,7 @@ public class StartupInitializer implements IStartup {
 				    };
 				});
 				
-				
-				System.out.println(window.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditors().length);
-
-						
-				System.out.println(window.getWorkbench().getActiveWorkbenchWindow().getActivePage().getSelection());
-				System.out.println("Eclipse window activated:"+window.getActivePage().getActiveEditor().getSite().getPage().getLabel());
-				
-=======
+			
 				if (window.getActivePage().getActiveEditor() != null) {
 					System.out.println(window.getWorkbench()
 							.getActiveWorkbenchWindow().getActivePage()
@@ -190,7 +171,6 @@ public class StartupInitializer implements IStartup {
 							+ window.getActivePage().getActiveEditor()
 									.getSite().getPage().getLabel());
 				}
->>>>>>> 5ba0e287943c33cf687a84da2cf4dad13c12979a
 			}
 
 			@Override
