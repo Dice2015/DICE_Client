@@ -4,6 +4,10 @@ import java.util.prefs.Preferences;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
@@ -11,10 +15,14 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.StringFieldEditor;
+import org.eclipse.jface.text.DocumentEvent;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.ISharedImages;
@@ -25,6 +33,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchListener;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.texteditor.ITextEditor;
 
 import de.uks.se.scoreproject.dice.network.NetworkClient;
 import de.uks.se.scoreproject.dice.preferences.PreferenceConstants;
@@ -33,7 +42,8 @@ import de.uks.se.scoreproject.dice.preferences.PreferenceConstants;
  * Class used to initialize default preference values.
  */
 public class StartupInitializer implements IStartup {
-
+	IResourceChangeListener listener;
+	IWorkspace workspace = ResourcesPlugin.getWorkspace();
 	@Override
 	public void earlyStartup() {
 
@@ -61,6 +71,14 @@ public class StartupInitializer implements IStartup {
 		}
 		
 		
+		 listener = new IResourceChangeListener() {
+	            public void resourceChanged(IResourceChangeEvent event) {
+//	            	event.
+	                System.out.println("Something changed!");
+	            }
+	        };
+
+	        workspace.addResourceChangeListener(listener);//, lResourceChangeEvent.);
 		
 	}
 	
@@ -113,6 +131,30 @@ public class StartupInitializer implements IStartup {
 			@Override
 			public void windowActivated(IWorkbenchWindow window) {
 				// TODO Auto-generated method stub
+				IEditorPart editor = window.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();  
+				IEditorInput input = editor.getEditorInput();  
+				//editor.
+				IDocument document=(((ITextEditor)editor).getDocumentProvider()).getDocument(input);;
+
+				document.addDocumentListener(new IDocumentListener() {
+
+				        @Override
+				        public void documentChanged(DocumentEvent event) 
+				        {
+				        
+				            System.out.println("Change happened: " + event.toString());
+				        }
+
+				        @Override
+				        public void documentAboutToBeChanged(DocumentEvent event) {
+				            System.out.println("I predict that the following change will occur: "+event.toString());
+
+
+				        
+				    };
+				});
+				
+				
 				System.out.println(window.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditors().length);
 
 						

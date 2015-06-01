@@ -86,7 +86,7 @@ public class SamplePreferencePage extends FieldEditorPreferencePage implements
 
 		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot()
 				.getProjects();
-		String[][] items = new String[projects.length][projects.length];
+		String[][] items = new String[projects.length][2];
 		int i = 0;
 		for (IProject p : projects) {
 			items[i][0] = p.getName();
