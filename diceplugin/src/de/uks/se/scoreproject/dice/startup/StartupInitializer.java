@@ -44,6 +44,7 @@ import de.uks.se.scoreproject.dice.preferences.PreferenceConstants;
 public class StartupInitializer implements IStartup {
 	IResourceChangeListener listener;
 	IWorkspace workspace = ResourcesPlugin.getWorkspace();
+	boolean firstBoot = true;
 
 	@Override
 	public void earlyStartup() {
@@ -84,8 +85,21 @@ public class StartupInitializer implements IStartup {
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			public void run() {
 				registerPartListener();
+				if(firstBoot){
+					firstBoot = false;
+					IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor(); 
+					IEditorInput input = editor.getEditorInput();
+					// editor.
+					IDocument document = (((ITextEditor) editor)
+					.getDocumentProvider()).getDocument(input);
+
+					document.removeDocumentListener(doclistener);
+					document.addDocumentListener(doclistener);
+				}
 			}
 		});
+		// workaround for first boot
+	
 
 		// registerPartListener();
 		// listener = new IResourceChangeListener() {
