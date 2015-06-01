@@ -1,11 +1,13 @@
 package de.uks.se.scoreproject.dice.startup;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
@@ -18,15 +20,20 @@ import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Shell;
-
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.IWindowListener;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
+import org.eclipse.ui.IFileEditorInput;
 
 import de.uks.se.scoreproject.dice.network.NetworkClient;
 import de.uks.se.scoreproject.dice.preferences.PreferenceConstants;
@@ -37,6 +44,7 @@ import de.uks.se.scoreproject.dice.preferences.PreferenceConstants;
 public class StartupInitializer implements IStartup {
 	IResourceChangeListener listener;
 	IWorkspace workspace = ResourcesPlugin.getWorkspace();
+
 	@Override
 	public void earlyStartup() {
 
@@ -65,23 +73,109 @@ public class StartupInitializer implements IStartup {
 			port = Integer.parseInt(arr[1]);
 			new NetworkClient(this, username, port, prefs.get(
 					PreferenceConstants.P_STRING_username, ""), prefs.get(
-					PreferenceConstants.P_STRING_pw, "")).start();;
+					PreferenceConstants.P_STRING_pw, "")).start();
+			;
 
 		} catch (Exception e) {
 			showMessage("could not connect to server");
 			e.printStackTrace();
 		}
 		
-		
-		 listener = new IResourceChangeListener() {
-	            public void resourceChanged(IResourceChangeEvent event) {
-//	            	event.
-	                System.out.println("Something changed!");
-	            }
-	        };
+		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			public void run() {
+				registerPartListener();
+			}
+		});
 
-	        workspace.addResourceChangeListener(listener);//, lResourceChangeEvent.);
-		
+		// registerPartListener();
+		// listener = new IResourceChangeListener() {
+		// public void resourceChanged(IResourceChangeEvent event) {
+		// // event.
+		// System.out.println("Something changed!");
+		// }
+		// };
+		//
+		// workspace.addResourceChangeListener(listener);//,
+		// lResourceChangeEvent.);
+
+	}
+
+	IDocumentListener doclistener = new IDocumentListener() {
+
+		@Override
+		public void documentChanged(DocumentEvent event) {
+
+			System.out.println("Change happened: "
+					+ event.toString());
+		}
+
+		@Override
+		public void documentAboutToBeChanged(DocumentEvent event) {
+			System.out
+					.println("I predict that the following change will occur: "
+							+ event.toString());
+
+		};
+	};
+	
+	private void registerPartListener() {
+		// TODO Auto-generated method stub
+		IWorkbench ww = PlatformUI.getWorkbench();
+		IWorkbenchWindow lwbw = ww.getActiveWorkbenchWindow();
+		IWorkbenchPage lwbp = lwbw.getActivePage();
+		lwbp.addPartListener(new IPartListener() {
+
+			@Override
+			public void partOpened(IWorkbenchPart part) {
+				// TODO Auto-generated method stub
+
+				System.out.println("opened:" + part.getTitle());
+			}
+
+			@Override
+			public void partDeactivated(IWorkbenchPart part) {
+				// TODO Auto-generated method stub
+				System.out.println("deactivated:" + part.getTitle());
+			}
+
+			@Override
+			public void partClosed(IWorkbenchPart part) {
+				// TODO Auto-generated method stub
+				System.out.println("closed:" + part.getTitle());
+			}
+
+			@Override
+			public void partBroughtToTop(IWorkbenchPart part) {
+				if (part instanceof IEditorPart) {
+					if (((IEditorPart) part).getEditorInput() instanceof IFileEditorInput) {
+						IFile file = ((IFileEditorInput) ((EditorPart) part)
+								.getEditorInput()).getFile();
+						System.out.println(file.getLocation());
+					}
+				}
+
+			}
+
+			@Override
+			public void partActivated(IWorkbenchPart part) {
+				// TODO Auto-generated method stub
+				System.out.println("activated:" + part.getTitle());
+
+//				part.getSite().getPage().getActiveEditor()
+				IEditorPart editor = part.getSite().getPage().getActiveEditor(); /*window.getWorkbench()
+						.getActiveWorkbenchWindow().getActivePage()
+						.getActiveEditor();*/
+				IEditorInput input = editor.getEditorInput();
+				// editor.
+				IDocument document = (((ITextEditor) editor)
+						.getDocumentProvider()).getDocument(input);
+				;
+
+				document.removeDocumentListener(doclistener);
+				document.addDocumentListener(doclistener);
+
+			}
+		});
 	}
 
 	public static IProject getCurrentSelectedProject() {
@@ -111,99 +205,7 @@ public class StartupInitializer implements IStartup {
 						message);
 			}
 		});
-		//
-		// PlatformUI.getWorkbench().addWorkbenchListener(new
-		// IWorkbenchListener(){
-		//
-		// @Override
-		// public boolean preShutdown(IWorkbench workbench, boolean forced) {
-		// // TODO Auto-generated method stub
-		// return false;
-		// }
-		//
-		// @Override
-		// public void postShutdown(IWorkbench workbench) {
-		// // TODO Auto-generated method stub
-		//
-		// }
-		//
-		// });
-
-		PlatformUI.getWorkbench().addWindowListener(new IWindowListener() {
-
-			@Override
-			public void windowActivated(IWorkbenchWindow window) {
-				// TODO Auto-generated method stub
-
-				IEditorPart editor = window.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();  
-				IEditorInput input = editor.getEditorInput();  
-				//editor.
-				IDocument document=(((ITextEditor)editor).getDocumentProvider()).getDocument(input);;
-
-				document.addDocumentListener(new IDocumentListener() {
-
-				        @Override
-				        public void documentChanged(DocumentEvent event) 
-				        {
-				        
-				            System.out.println("Change happened: " + event.toString());
-				        }
-
-				        @Override
-				        public void documentAboutToBeChanged(DocumentEvent event) {
-				            System.out.println("I predict that the following change will occur: "+event.toString());
-
-
-				        
-				    };
-				});
-				
-			
-				if (window.getActivePage().getActiveEditor() != null) {
-					System.out.println(window.getWorkbench()
-							.getActiveWorkbenchWindow().getActivePage()
-							.getEditors().length);
-
-					System.out.println(window.getWorkbench()
-							.getActiveWorkbenchWindow().getActivePage()
-							.getSelection());
-					System.out.println("Eclipse window activated:"
-							+ window.getActivePage().getActiveEditor()
-									.getSite().getPage().getLabel());
-				}
-			}
-
-			@Override
-			public void windowDeactivated(IWorkbenchWindow window) {
-				// TODO Auto-generated method stub
-				if (window.getActivePage().getActiveEditor() != null) {
-					System.out.println("Eclipse window deactivated:"
-							+ window.getActivePage().getActiveEditor()
-									.getTitle());
-				}
-			}
-
-			@Override
-			public void windowClosed(IWorkbenchWindow window) {
-				// TODO Auto-generated method stub
-				if (window.getActivePage().getActiveEditor() != null) {
-					System.out.println("Eclipse window close:"
-							+ window.getActivePage().getActiveEditor()
-									.getTitle());
-				}
-			}
-
-			@Override
-			public void windowOpened(IWorkbenchWindow window) {
-				// TODO Auto-generated method stub
-				if (window.getActivePage().getActiveEditor() != null) {
-					System.out.println("Eclipse window open:"
-							+ window.getActivePage().getActiveEditor()
-									.getTitle());
-				}
-			}
-
-		});
+		
 
 	}
 
