@@ -88,13 +88,14 @@ public class StartupInitializer implements IStartup {
 				if(firstBoot){
 					firstBoot = false;
 					IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor(); 
+					if(editor != null){
 					IEditorInput input = editor.getEditorInput();
 					// editor.
 					IDocument document = (((ITextEditor) editor)
 					.getDocumentProvider()).getDocument(input);
 
 					document.removeDocumentListener(doclistener);
-					document.addDocumentListener(doclistener);
+					document.addDocumentListener(doclistener);}
 				}
 			}
 		});
