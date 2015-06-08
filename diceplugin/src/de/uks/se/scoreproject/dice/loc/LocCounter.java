@@ -98,14 +98,14 @@ public class LocCounter {
 				//TODO
 				
 			}
-			if(!status_comment && realContents.contains("/*") && !isSurroundedby(realContents, "/*", '"')
+			if(!status_comment && realContents.contains("/*") && !isSurroundedby(realContents, "/*", '"'))
 			{
 				status_comment = true;
 				// auskommentierten bereich rauslöschen
 				//TODO
 			}
 			
-			if(status_comment && realContents.contains("*/") && !isSurroundedby(realContents, "*/", '"'){
+			if(status_comment && realContents.contains("*/") && !isSurroundedby(realContents, "*/", '"')){
 				status_comment = false;
 				// auskommentierten bereich rauslöschen
 				//TODO
