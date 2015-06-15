@@ -45,6 +45,8 @@ public class LocCounter {
 					folderLOC += countFileLines(sub.getAbsolutePath());
 				}
 			}
+		}else if(root.exists()){
+			folderLOC += countFileLines(root.getAbsolutePath());
 		}
 		return folderLOC;
 	}
@@ -96,25 +98,46 @@ public class LocCounter {
 					realContents.contains("*/") && !isSurroundedby(realContents, "*/", '"')){ // start und ende
 				// auskommentierten teilbereich rauslöschen
 				//TODO
+				realContents = removeAreaComments(realContents);
 				
 			}
 			if(!status_comment && realContents.contains("/*") && !isSurroundedby(realContents, "/*", '"'))
 			{
 				status_comment = true;
 				// auskommentierten bereich rauslöschen
-				//TODO
+				realContents = removeAreaComments(realContents);
+				//TODO TEST
 			}
 			
 			if(status_comment && realContents.contains("*/") && !isSurroundedby(realContents, "*/", '"')){
 				status_comment = false;
 				// auskommentierten bereich rauslöschen
-				//TODO
+				realContents = removeAreaComments(realContents);
+				//TODO TEST
 			}
 			// checke ob ein befehl in der zeile ist also ob vor ; etwas steht oder danach
 			// dann ist es ein LOC
-			
-			return true;
+			String res[] = realContents.split(";");
+			if(res.length > 1){
+				return true;
+			}else{
+				return false;
+			}
 		}
+	}
+	
+	// remove // comments*/ 
+	private static String removeLineComments(String s){
+		
+		return s.substring(0, s.indexOf("//"));
+	}
+	
+	private static String removeAreaComments(String s){
+		
+		while(s.indexOf("/*") != -1 && s.indexOf("*/") != -1){
+			s = s.substring(0, s.indexOf("/*")) + s.substring(s.indexOf("*/"), s.length());
+		}
+		return s;
 	}
 	/*
 	 * überlegung
@@ -135,7 +158,7 @@ public class LocCounter {
 		int leftWrap = 0;
 		int rightWrap = 0;
 		while(!done){
-			if(leftPos == 0 && rightPos == line.length()){
+			if(leftPos == 0 && rightPos == line.length() -1){
 				done = true;
 			}
 			
@@ -149,7 +172,7 @@ public class LocCounter {
 			if(leftPos != 0){
 				leftPos --;
 			}
-			if(rightPos != line.length()){
+			if(rightPos != line.length() -1){
 				rightPos ++;	
 			}
 			
