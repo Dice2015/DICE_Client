@@ -16,7 +16,7 @@ public class LOCTest {
 	@Test
 	public void testLocCounting(){
 		createTestFiles();
-		assertEquals("Ergebnis sollte 4 sein",4, LocCounter.CountAllLines("test"));
+		assertEquals("Ergebnis sollte 4 sein",4, LocCounter.CountAllLines("test")); // "D:\\Workspace\\carcassonne\\Carcassonne"));//
 	}
 
 	private void createTestFiles() {

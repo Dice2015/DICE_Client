@@ -63,8 +63,10 @@ public class LocCounter {
 			BufferedReader in = new BufferedReader(read);
 			String readLine = in.readLine(); 
 			while(readLine != null ){
+				
 				if(checkLine(readLine)){
 					loc++;
+					System.out.println("is a code line");
 				}
 				readLine = in.readLine();
 			}
@@ -86,13 +88,16 @@ public class LocCounter {
 	 */
 	private static boolean status_comment=false;
 	private static boolean checkLine(String line){
+		System.out.println("checkLine:"+line);
 		line = line.trim();
 		if(line == null || line.equals("") ){
 			return false;
 		}else{// weitere checks?
 			String realContents= line;
 			if(!status_comment && realContents.contains("//") && !isSurroundedby(realContents, "//", '"')){
-				realContents = line.split("//")[0];
+				String [] or = line.split("//");
+				if(or.length>0)
+				realContents = or[0];
 			}
 			if(!status_comment && realContents.contains("/*") && !isSurroundedby(realContents, "/*", '"') &&
 					realContents.contains("*/") && !isSurroundedby(realContents, "*/", '"')){ // start und ende
@@ -118,7 +123,7 @@ public class LocCounter {
 			// checke ob ein befehl in der zeile ist also ob vor ; etwas steht oder danach
 			// dann ist es ein LOC
 			String res[] = realContents.split(";");
-			if(res.length > 1){
+			if(res.length >= 1 && contentIsFilledOnce(res)){
 				return true;
 			}else{
 				return false;
@@ -126,6 +131,20 @@ public class LocCounter {
 		}
 	}
 	
+	/** returns true if at least one entry in the array is not an empty string or null*/
+	private static boolean contentIsFilledOnce(String[] res) {
+		
+		for(String s : res){
+			if(s != null ){
+				s = s.trim();
+				if(!"".equals(s)){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	// remove // comments*/ 
 	private static String removeLineComments(String s){
 		
