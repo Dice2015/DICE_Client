@@ -1,21 +1,12 @@
 package de.uks.se.scoreproject.dice.startup;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.swing.text.StyleConstants.ColorConstants;
-
-import org.eclipse.core.internal.resources.File;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
@@ -28,9 +19,6 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -45,9 +33,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.eclipse.ui.texteditor.MarkerUtilities;
 import org.eclipse.ui.IFileEditorInput;
-import org.xml.sax.SAXParseException;
 
 import de.uks.se.scoreproject.dice.network.NetworkClient;
 import de.uks.se.scoreproject.dice.preferences.PreferenceConstants;
@@ -198,30 +184,11 @@ public class StartupInitializer implements IStartup {
 				// editor.
 				IDocument document = (((ITextEditor) editor)
 						.getDocumentProvider()).getDocument(input);
-				
+				;
 
 				document.removeDocumentListener(doclistener);
 				document.addDocumentListener(doclistener);
-				
-				RectangleFigure node1 = new RectangleFigure();
-			    RectangleFigure node2 = new RectangleFigure();
-			    node1.setBackgroundColor(ColorConstants.red);
-			    node1.setBounds(new Rectangle(30, 30, 64, 36));
-			    node2.setBackgroundColor(ColorConstants.blue);
-			    node2.setBounds(new Rectangle(100, 100, 64, 36));
-			    
-				Canvas canvas = new Canvas(parent, SWT.NONE);
-			    LightweightSystem lws = new LightweightSystem(canvas);
-			    IFigure panel = new Figure();
-			    lws.setContents(panel);
-			    [...]
-			    panel.add(node1);
-			    panel.add(node2);
-			    panel.add(conn);
-			    
-				
-			    
-			    
+
 			}
 		});
 	}
@@ -260,38 +227,6 @@ public class StartupInitializer implements IStartup {
 	public void setConnectionError(String message) {
 		// TODO Auto-generated method stub
 		showMessage(message);
-	}
-	
-	protected void makeError(File file)
-	{
-
-	    int lineNumber = 3;
-	    int columnNumber =3 ;
-
-	    Map map = new HashMap();
-	    MarkerUtilities.setLineNumber(map, lineNumber);
-	    MarkerUtilities.setMessage(map, "das ist ein FEEEEHLER");
-	    map.put(IMarker.MESSAGE, "das ist ein FEEEEHLER");
-	    map.put(IMarker.LOCATION, file.getFullPath().toString());
-
-	    Integer charStart = new Integer(2);//getCharStart(lineNumber, columnNumber);
-	    if (charStart != null)
-	        map.put(IMarker.CHAR_START, charStart);
-
-	    Integer charEnd = new Integer(4);//getCharEnd(lineNumber, columnNumber);
-	    if (charEnd != null)
-	        map.put(IMarker.CHAR_END, charEnd);
-
-	    map.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_ERROR));
-
-	    try
-	    {
-	        MarkerUtilities.createMarker(file, map, "typ");
-	    }
-	    catch (CoreException ee)
-	    {
-	        ee.printStackTrace();
-	    }
 	}
 
 }
