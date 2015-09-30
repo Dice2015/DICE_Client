@@ -1,8 +1,6 @@
 package de.uks.se.scoreproject.dice.network;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -10,6 +8,8 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.LinkedBlockingQueue;
+
+import org.json.simple.JSONObject;
 
 import de.uks.se.scoreproject.dice.startup.StartupInitializer;
 
@@ -56,12 +56,21 @@ public class NetworkClient extends Thread  {
 			connected = true;
 			new SendThread().start();
 //			gui.setConnectionOK();
+			
+			JSONObject loginMessage = new JSONObject();
+			loginMessage.put("type", "login");
+			loginMessage.put("user", username);
+			loginMessage.put("pw", pw);
+			this.send(loginMessage.toJSONString());
+			
+//			this.send("{\"type\":\"login\", \"user\":\"karl\"}");
 		
 			while (connected) {
 				String read = in.readLine();
 				if(read == null){
 					break;
 				}
+				System.out.println(read);
 //				gui.processMessage(read);
 			}
 			outputStreamWriter.close();
